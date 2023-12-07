@@ -3,7 +3,6 @@ var router = express.Router();
 const rp = require('request-promise');
 const { response } = require('../app');
 const Openai = require('openai')
-const openai = new Openai({apiKey:'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'})
 var mongoose = require('mongoose');
 const removeTags = (text) => {
     return text
@@ -39,6 +38,8 @@ router.post('/', async function(req, res) {
       const rpResponse = await rp(url);
  
       const parsedText= removeTags(rpResponse);
+      const openai = new Openai({apiKey:process.env.OPENAI_KEY})
+
       completion = await openai.chat.completions.create({
       max_tokens:1024,
       model:"gpt-3.5-turbo",

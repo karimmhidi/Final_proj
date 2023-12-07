@@ -4,7 +4,6 @@ const rp = require('request-promise');
 const Openai = require ("openai");
 var mongoose = require('mongoose');
 const { response } = require('../app');
-const openai = new Openai({apiKey:'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'})
 const removeTags = (text) => {
   return text
     .replace(/<script\b[^>]*>[\s\S]*?<\/script>|<style\b[^>]*>[\s\S]*?<\/style>|<[^>]+>/gi, '')
@@ -25,6 +24,7 @@ router.post('/', async function (req, res) {
   const url = req.body.url;
   const lang = req.body.language;
 
+
   try {
     // Check if the website is already in the database for the specific language
     const existingWebsite = await Website.findOne({ url: url, language: lang });
@@ -37,7 +37,7 @@ router.post('/', async function (req, res) {
       // Website not in the database for the specific language, fetch the website content
       const rpResponse = await rp(url);
       const parsedText = removeTags(rpResponse);
-
+      const openai = new Openai({apiKey:process.env.OPENAI_KEY})
       // Use OpenAI to get the summary
       const completion = await openai.chat.completions.create({
         max_tokens: 1024,

@@ -90,7 +90,8 @@ async function onListening() {
     : 'port ' + addr.port;
   console.log('listening on ' +bind);
   try {
-    await mongoose.connect('mongodb+srv://karimmhidi1:g7eISq9ZmE1tcHGi@cluster0.g4qzapl.mongodb.net/?retryWrites=true&w=majority')
+    await mongoose.connect('mongodb+srv://karimmhidi1:rAuR8HnmomXg3cSa@cluster0.g4qzapl.mongodb.net/?retryWrites=true&w=majority')
+    console.log('Connected')
   }catch (e) {
     console.log('Not connected to ' + e)
   }
